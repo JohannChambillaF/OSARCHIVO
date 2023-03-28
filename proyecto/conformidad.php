@@ -22,8 +22,9 @@
 						<div class="input-field">
 							<input type="text" name="alumno" id="alumno" placeholder="Alumno" class="form-control">
 						</div>
-						<div class="input-field">
-							<input type="text" name="codigo" id="codigo" placeholder="Código" class="form-control">	
+						<div class="input-field" style="display: flex; flex-wrap: nowrap;">
+							<input type="text" name="codigo" id="codigo" placeholder="Código" class="form-control" style="width: 90%;">
+							<a href="" class="btn btn-success ms-2" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">delete</i></a>	
 						</div>
 						<div class="input-field">
 							<select name="escuela" id="escuela" class="form-select">
@@ -64,7 +65,6 @@
 									<option value="<?=$id?>"><?=$nomsed?></option>
 									<?php
 									}
-
 								?>
 							</select>
 						</div>
@@ -80,8 +80,7 @@
 					</div>
 				</div>
 				<div class="input-field">
-					<label for=""></label>
-					<button type="submit" class="btn btn-primary" name="btn_guardar" id="btn_guardar">Guardar</button>
+					<button type="submit" class="btn btn-secondary btn-block" name="btn_guardar" id="btn_guardar" style="width: 100%">Guardar</button>
 				</div>
 			</form>
 		</div>		
