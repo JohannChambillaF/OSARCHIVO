@@ -103,7 +103,7 @@ main {
 }
 
 .card {
-    --bs-card-spacer-y: 1.5rem;
+    --bs-card-spacer-y: 1.2rem;
     --bs-card-spacer-x: 1.5rem;
     --bs-card-cap-padding-y: 0.1rem;
     --bs-card-cap-bg: rgba(76, 150, 217);
@@ -118,6 +118,3 @@ main {
 .input-field{
       margin-bottom: 5px;
 }
-.row {
-    --bs-gutter-x: 30.5rem;
-    }
