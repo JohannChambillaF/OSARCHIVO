@@ -3,7 +3,7 @@
  ?>
 
 <body>
-<div class="w3-container" style="margin: 15px;">
+<div style="margin: 15px; display: flex; flex-wrap: nowrap;">
 	<div class="card col-sm-8"  style="margin-bottom: 15px;">
 		<div class="card-header" style="color: #FFFF;">
 			<H5>Registro Conformidades</H5>
@@ -85,6 +85,54 @@
 			</form>
 		</div>		
 	</div>
+	<div class="card col-sm-8 ms-2"  style="margin-bottom: 15px;">
+		<div class="card-header" style="color: #FFFF;"><H5>Validación Expediente</H5>
+		</div>
+		<div class="card-body text-center">
+			<table class="table table-striped table-bordered" align="vertical" id="tablaval">
+					<thead class="table-primary" style='font-size: 12px; color: #626161;'>
+						<tr>
+							<th class="text-center">TIPO</th>
+							<th class="text-center">FEC_REG</th>
+							<th class="text-center">ALUMNO</th>
+							<th class="text-center">CÓDIGO</th>
+							<th class="text-center">ESTADO</th>
+							<th class="text-center">FEC_ENVIO</th>
+						</tr>
+					</thead>
+
+					<tbody style='font-size: 12px;'>
+					<?php  
+
+						$sql = "SELECT tipo, fechrecepcion, alumno, codigo, estado, fechenvio FROM registro WHERE codigo LIKE '162745002D';";
+
+						$ejecutar = mysqli_query($conexion, $sql);
+
+						while ($fila =mysqli_fetch_array($ejecutar))
+							//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
+
+							//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
+							{ 
+							?>
+								<tr>
+									<td><?=$fila[0]?></td>
+									<td><?=$fila[1]?></td>
+									<td><?=$fila[2]?></td>
+									<td><?=$fila[3]?></td>
+									<td><?=$fila[4]?></td>
+									<td><?=$fila[5]?></td>
+									<td><?=$fila[6]?></td>
+									<td><?=$fila[10]?></td>
+								</tr>
+						<?php }
+
+					?>
+					</tbody>
+				</table>
+		</div>
+	</div>							
+</div>
+<div class="w3-container" style="margin: 15px;">
 	<div class="card">
 		<div class="card-header" style="color: #FFFF;"><H5>Lista Conformidades</H5></div>
 		<div class="card-body text-center">
