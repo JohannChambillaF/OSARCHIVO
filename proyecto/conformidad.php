@@ -4,7 +4,7 @@
 
 <body>
 <div style="margin: 15px; display: flex; flex-wrap: nowrap;">
-	<div class="card col-sm-8"  style="margin-bottom: 15px;">
+	<div class="card col-sm-6"  style="margin-bottom: 15px;">
 		<div class="card-header" style="color: #FFFF;">
 			<H5>Registro Conformidades</H5>
 		</div>
@@ -23,8 +23,7 @@
 							<input type="text" name="alumno" id="alumno" placeholder="Alumno" class="form-control">
 						</div>
 						<div class="input-field" style="display: flex; flex-wrap: nowrap;">
-							<input type="text" name="codigo" id="codigo" placeholder="Código" class="form-control" style="width: 90%;">
-							<a href="" class="btn btn-success ms-2" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">delete</i></a>	
+							<input type="text" name="codigo" id="codigo" placeholder="Código" class="form-control" autocomplete="off">	
 						</div>
 						<div class="input-field">
 							<select name="escuela" id="escuela" class="form-select">
@@ -85,50 +84,11 @@
 			</form>
 		</div>		
 	</div>
-	<div class="card col-sm-8 ms-2"  style="margin-bottom: 15px;">
+	<div class="card col-sm-6 ms-2"  style="margin-bottom: 15px;">
 		<div class="card-header" style="color: #FFFF;"><H5>Validación Expediente</H5>
 		</div>
 		<div class="card-body text-center">
-			<table class="table table-striped table-bordered" align="vertical" id="tablaval">
-					<thead class="table-primary" style='font-size: 12px; color: #626161;'>
-						<tr>
-							<th class="text-center">TIPO</th>
-							<th class="text-center">FEC_REG</th>
-							<th class="text-center">ALUMNO</th>
-							<th class="text-center">CÓDIGO</th>
-							<th class="text-center">ESTADO</th>
-							<th class="text-center">FEC_ENVIO</th>
-						</tr>
-					</thead>
-
-					<tbody style='font-size: 12px;'>
-					<?php  
-
-						$sql = "SELECT tipo, fechrecepcion, alumno, codigo, estado, fechenvio FROM registro WHERE codigo LIKE '162745002D';";
-
-						$ejecutar = mysqli_query($conexion, $sql);
-
-						while ($fila =mysqli_fetch_array($ejecutar))
-							//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
-
-							//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
-							{ 
-							?>
-								<tr>
-									<td><?=$fila[0]?></td>
-									<td><?=$fila[1]?></td>
-									<td><?=$fila[2]?></td>
-									<td><?=$fila[3]?></td>
-									<td><?=$fila[4]?></td>
-									<td><?=$fila[5]?></td>
-									<td><?=$fila[6]?></td>
-									<td><?=$fila[10]?></td>
-								</tr>
-						<?php }
-
-					?>
-					</tbody>
-				</table>
+			<div id="buscacodigo"></div>			
 		</div>
 	</div>							
 </div>
@@ -193,7 +153,6 @@
 	</div>			
 </div>
 <!--SCRIPT agregar_datos()-->
-
 <script> 
 $(document).ready(function(){
 	$("#btn_guardar").on('click', function(e){//hace referencia a la accion de prescionar el boton
@@ -203,12 +162,40 @@ $(document).ready(function(){
 	});
 });	
 </script>
+<!--SCRIPT llamado DATATABLE-->
 <script>
 	$(document).ready(function () {
     $('#tabla').DataTable({
     	"pageLength": 5
     });
 });
+</script>
+<!--SCRIPT BUSQUEDA DE CODIGO-->
+<script>
+	$(document).ready(function () {
+
+		$("#codigo").keyup(function(){
+			var input = $(this).val();
+			//alert(input);
+
+			if(input != ""){
+				$.ajax({
+					url: "controlador/buscarcodigo.php",
+					method: "POST",
+					data:{input:input}, 
+
+					success:function(data){
+						$("#buscacodigo").html(data);
+						$("#buscacodigo").css("display","block");
+					}
+				});
+			}else{
+				$("#buscacodigo").css("display","none"); 
+			}
+
+
+		});
+	});
 </script>
 </body>
 </html>
