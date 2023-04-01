@@ -4,7 +4,7 @@
 
 <body>
 <div style="margin: 15px; display: flex; flex-wrap: nowrap;">
-	<div class="card col-sm-6"  style="margin-bottom: 15px;">
+	<div class="card col-6"  style="margin-bottom: 15px;">
 		<div class="card-header" style="color: #FFFF;">
 			<H5>Registro Conformidades</H5>
 		</div>
@@ -84,7 +84,7 @@
 			</form>
 		</div>		
 	</div>
-	<div class="card col-sm-6 ms-2"  style="margin-bottom: 15px;">
+	<div class="card col-6 ms-2"  style="margin-bottom: 15px;">
 		<div class="card-header" style="color: #FFFF;"><H5>Validación Expediente</H5>
 		</div>
 		<div class="card-body text-center">
@@ -107,7 +107,7 @@
 						<th class="text-center">MODALIDAD</th>
 						<th class="text-center">SEDE</th>
 						<th class="text-center">ESTADO</th>
-						<th class="text-center" style="width: 10%;">ACCION</th>
+						<th class="text-center" style="width: 15%;">ACCION</th>
 					</tr>
 				</thead>
 
@@ -118,7 +118,7 @@
 						FROM registro r 
 						INNER JOIN escuela e ON r.idescuela = e.idescuela
 						INNER JOIN sede s ON r.idsede = s.idsede 
-						ORDER BY idconfoficio DESC";
+						ORDER BY idconfoficio DESC LIMIT 7";
 
 					$ejecutar = mysqli_query($conexion, $sql);
 
@@ -153,22 +153,14 @@
 	</div>			
 </div>
 <!--SCRIPT agregar_datos()-->
-<script> 
-$(document).ready(function(){
-	$("#btn_guardar").on('click', function(e){//hace referencia a la accion de prescionar el boton
-
-		e.preventDefault();//esto sirve para que la pagina no se recargue
-		agregar_datos();//esta llamando a la funcion creada en funciones.js
-	});
-});	
-</script>
-<!--SCRIPT llamado DATATABLE-->
 <script>
-	$(document).ready(function () {
-    $('#tabla').DataTable({
-    	"pageLength": 5
-    });
-});
+	$(document).ready(function(){
+		$("#btn_guardar").on('click', function(e){//hace referencia a la accion de prescionar el boton
+
+			e.preventDefault();//esto sirve para que la pagina no se recargue
+			agregar_datos();//esta llamando a la funcion creada en funciones.js
+		});
+	});	
 </script>
 <!--SCRIPT BUSQUEDA DE CODIGO-->
 <script>
@@ -197,5 +189,13 @@ $(document).ready(function(){
 		});
 	});
 </script>
+<!--SCRIPT llamado DATATABLE-->
+<!--<script>
+	$(document).ready(function () {
+   		$('#tabla').DataTable({
+    		"pageLength": 5
+   		});
+	});
+</script>-->
 </body>
 </html>

@@ -23,8 +23,8 @@
   <?php include('proyecto/componentes/sidebars.php') ?>
 
   <div class="b-example-divider"></div>
-  <div class="text">
-    <div id="resultado" class="text">Dashboard Sidebar</div>
+  <div class="col-sm-10">
+    <div id="resultado">Dashboard Sidebar</div>
   </div>
 </div>
 </main>
