@@ -96,6 +96,11 @@
 	<div class="card">
 		<div class="card-header" style="color: #FFFF;"><H5>Lista Conformidades</H5></div>
 		<div class="card-body text-center">
+			<form method="POST" id="frm_bustabla">
+				<div class="input-field">
+					<input type="text" name="busctabla" id="busctabla" placeholder="Buscar..." class="form-control" autocomplete="off" style="width: 20%;">
+				</div>
+			</form>
 			<table class="table table-striped table-bordered" align="vertical" id="tabla">
 				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
 					<tr>
@@ -152,6 +157,8 @@
 		</div>
 	</div>			
 </div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 <!--SCRIPT agregar_datos()-->
 <script>
 	$(document).ready(function(){
@@ -161,6 +168,33 @@
 			agregar_datos();//esta llamando a la funcion creada en funciones.js
 		});
 	});	
+</script>
+<!--SCRIPT BUSQUEDA DE CODIGO-->
+<script>
+	$(document).ready(function () {
+
+		$("#codigo").keyup(function(){
+			var input = $(this).val();
+			//alert(input);
+
+			if(input != ""){
+				$.ajax({
+					url: "controlador/buscarcodigo.php",
+					method: "POST",
+					data:{input:input}, 
+
+					success:function(data){
+						$("#buscacodigo").html(data);
+						$("#buscacodigo").css("display","block");
+					}
+				});
+			}else{
+				$("#buscacodigo").css("display","none"); 
+			}
+
+
+		});
+	});
 </script>
 <!--SCRIPT BUSQUEDA DE CODIGO-->
 <script>
