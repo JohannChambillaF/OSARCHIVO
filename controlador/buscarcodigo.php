@@ -4,7 +4,7 @@ include "../conexion/conexion.php";
 if(isset($_POST['input'])){
 
     $input = $_POST['input'];
-    $query = "SELECT * FROM  registro WHERE codigo LIKE '{$input}%' LIMIT 4";
+    $query = "SELECT * FROM  registro WHERE codigo LIKE '%{$input}%' LIMIT 4";
 
     $result = mysqli_query($conexion,$query);
 
