@@ -13,7 +13,7 @@ function agregar_datos(){
 				
 				alert('registro exitoso');
 				$('#tabla').load('proyecto/conformidad.php #tabla');
-				$('#frm_registrar').load('proyecto/conformidad.php #frm_registrar');
+				$('#frm_registrar').trigger('reset');
 				
 			}else{
 				alert('error de registro');
