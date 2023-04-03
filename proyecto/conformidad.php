@@ -104,6 +104,7 @@
 			<table class="table table-striped table-bordered" align="vertical" id="tabla">
 				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
 					<tr>
+						<th class="text-center">ID</th>
 						<th class="text-center">F REGISTRO</th>
 						<th class="text-center">N° REGISTRO</th>
 						<th class="text-center">ALUMNO</th>
@@ -116,13 +117,13 @@
 					</tr>
 				</thead>
 
-				<tbody style='font-size: 12px;'>
+				<tbody style='font-size: 12px;' id="tablaconfor"><!--este id="tablaconfor" es para el buscador-->
 				<?php  
 
-					$sql = "SELECT r.fechrecepcion,r.nregistro,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
+					$sql = "SELECT r.idconfoficio,r.fechrecepcion,r.nregistro,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
 						FROM registro r 
 						INNER JOIN escuela e ON r.idescuela = e.idescuela
-						INNER JOIN sede s ON r.idsede = s.idsede 
+						INNER JOIN sede s ON r.idsede = s.idsede
 						ORDER BY idconfoficio DESC LIMIT 7";
 
 					$ejecutar = mysqli_query($conexion, $sql);
@@ -133,7 +134,7 @@
 						//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
 						{ 
 						?>
-							<tr>
+							<tr id="<?=$fila[0]?>">
 								<td><?=$fila[0]?></td>
 								<td><?=$fila[1]?></td>
 								<td><?=$fila[2]?></td>
@@ -141,16 +142,16 @@
 								<td><?=$fila[4]?></td>
 								<td><?=$fila[5]?></td>
 								<td><?=$fila[6]?></td>
-								<td><?=$fila[10]?></td>
+								<td><?=$fila[7]?></td>
+								<td><?=$fila[11]?></td>
 								<td>
 								<a href="" class="btn btn-warning" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
 								
-								<a href="" class="btn btn-danger" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">delete</i></a>
+								<a href="" class="btn btn-danger" style="width: 30px; height: 35px;" name="deleteconfor" value="<?=$fila[0]?>;"><i class="material-symbols-outlined">delete</i></a>
 								</td>
 								
-							</tr>
+							</tr>							
 					<?php }
-
 				?>
 				</tbody>
 			</table>
@@ -196,40 +197,39 @@
 		});
 	});
 </script>
-<!--SCRIPT BUSQUEDA DE CODIGO-->
+<!--SCRIPT llamado DATATABLE-->
+<!--
 <script>
 	$(document).ready(function () {
-
-		$("#codigo").keyup(function(){
-			var input = $(this).val();
-			//alert(input);
-
-			if(input != ""){
-				$.ajax({
-					url: "controlador/buscarcodigo.php",
-					method: "POST",
-					data:{input:input}, 
-
-					success:function(data){
-						$("#buscacodigo").html(data);
-						$("#buscacodigo").css("display","block");
-					}
-				});
-			}else{
-				$("#buscacodigo").css("display","none"); 
+   		$('#tabla').DataTable({
+    		"pageLength": 5,
+			"order": [[ 0, "desc" ]], //or asc 
+   		});
+	});-->
+</script>
+<!--SCRIPT llamado ELIMINAR-->
+<script>
+	$(document).ready(function(){
+		$("#deleteconfor").on('click', function(e){//hace referencia a la accion de prescionar el boton
+			e.preventDefault();//esto sirve para que la pagina no se recargue
+			if(confirm('Estas seguro?'))
+			{
+				alert('yes');
 			}
-
-
+			
+		});
+	});	
+</script>
+<!--SCRIPT BUSQUEDA DE TABLA CONFORMIDAD-->
+<script>
+	$(document).ready(function(){
+		$("#busctabla").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+		$("#tablaconfor tr").filter(function() {
+		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
 		});
 	});
 </script>
-<!--SCRIPT llamado DATATABLE-->
-<!--<script>
-	$(document).ready(function () {
-   		$('#tabla').DataTable({
-    		"pageLength": 5
-   		});
-	});
-</script>-->
 </body>
 </html>
