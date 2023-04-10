@@ -3,6 +3,7 @@ function agregar_datos(){
 	var datos = $("#frm_registrar").serialize();
 
 	$.ajax({
+		
 		method: "POST",
 		url: "controlador/insertconfor.php",
 		data: datos,
@@ -12,9 +13,9 @@ function agregar_datos(){
 			if (e==1){
 				
 				alert('registro exitoso');
-				$('#tabla').load('proyecto/conformidad.php #tabla');
 				$('#frm_registrar').trigger('reset');
-				
+				$('#tabla').load('proyecto/conformidad.php #tabla');
+
 			}else{
 				alert('error de registro');
 			}
@@ -23,3 +24,17 @@ function agregar_datos(){
 
 	return false;
 }
+/*function pagination(partida){
+	//alert('holaa');
+	$.ajax({
+		method: 'POST',
+		url: 'controlador/paginar.php',
+		data: 'partida=' +partida,
+		success: function(data){
+			var array = eval(data);
+			$('#agrega-registros').html(array[0]);
+			$('#pagination').html(array[1]);
+		}
+	});
+	return false;
+}*/
