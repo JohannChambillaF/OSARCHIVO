@@ -6,15 +6,15 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="#" onclick="CargarOficio()" class="nav-link text-white" aria-current="page" style="margin-top: 20px;" >
+        <a href="#" onclick="CargarConformidad()" class="nav-link text-white" aria-current="page" style="margin-top: 20px;" >
           <i class="fa fa-house"></i>
           <span class="ms-2 d-none d-sm-inline">Conformidad Doc</span>
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link text-white">
+        <a href="#" onclick="CargarOficio()" class="nav-link text-white" aria-current="page" style="margin-top: 20px;" >
           <i class="fa fa-gauge"></i>
-          <span class="ms-2 d-none d-sm-inline">Dashboard</span>
+          <span class="ms-2 d-none d-sm-inline">Expedientes-Oficio</span>
         </a>
       </li>
       <li>
