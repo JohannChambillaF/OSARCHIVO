@@ -48,10 +48,19 @@
 							</select>
 						</div>
 						<div class="input-field">
-							<select name="modalidad" id="modalidad" class="form-select">
-								<option hidden selected>Seleccione una Modalidad</option>
-								<option value="ORDINARIO">ORDINARIO</option>
-								<option value="EXTRAORDINARIO">EXTRAORDINARIO</option>
+						<select name="modalidad" id="modalidad" class="form-select">
+							<?php 
+									$sql=$conexion->query("SELECT * FROM modalidad");
+									while ($esc=mysqli_fetch_array($sql))
+									{
+										$idmod=$esc['idmodalidad'];
+										$descrip=$esc['descripcion'];
+									?>
+									<option hidden selected>Seleccione una Modalidad</option>
+									<option value="<?=$idmod?>"><?=$descrip?></option>
+									<?php
+									}
+								?>
 							</select>
 						</div>
 						<div class="input-field">
