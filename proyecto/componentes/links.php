@@ -19,8 +19,11 @@
     <script src="js/funciones.js"></script>
     <script src="librerias/bootstrap.bundle.min.js"></script>
     
-    <script src="librerias/jquery.dataTables.min.js"></script>
-    <script src="librerias/dataTables.bootstrap5.min.js"></script>
+    <script src="librerias/pdfmake.min.js"></script>
+    <script src="librerias/vfs_fonts.js"></script>
+    <script src="librerias/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js" integrity="sha512-uWk2ZXl3GVrq6DZsrL5dSg1S/F3MNQ9VaDFigqXOoKUnWG58UxOuJGfTrzh5KjpoBvPiFniL2PahU2HUTFMJXw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
     <script src="librerias/sidebars.js"></script>
 
 </head>
