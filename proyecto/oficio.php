@@ -115,6 +115,7 @@
 						<th class="text-center">ID</th>
 						<th class="text-center">F REGISTRO</th>
 						<th class="text-center">N° REGISTRO</th>
+						<th class="text-center">N° OFICIO</th>
 						<th class="text-center">ALUMNO</th>
 						<th class="text-center">CÓDIGO</th>
 						<th class="text-center">ESCUELA</th>
@@ -127,7 +128,7 @@
 				<tbody class="text-center" style='font-size: 12px;'><!--este id="tablaconfor" es para el buscador-->
 					<?php  
 
-					$sql = "SELECT r.idconfoficio,r.fechrecepcion,r.nregistro,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
+					$sql = "SELECT r.idconfoficio,r.fechrecepcion,r.nregistro,r.noficio,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
 						FROM registro r 
 						INNER JOIN escuela e ON r.idescuela = e.idescuela
 						INNER JOIN sede s ON r.idsede = s.idsede
@@ -150,7 +151,8 @@
 								<td><?=$fila[5]?></td>
 								<td><?=$fila[6]?></td>
 								<td><?=$fila[7]?></td>
-								<td><?=$fila[11]?></td>
+								<td><?=$fila[8]?></td>
+								<td><?=$fila[12]?></td>
 								<td>
 								<a href="" class="btn btn-warning" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
 								
