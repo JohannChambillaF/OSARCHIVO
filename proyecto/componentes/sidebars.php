@@ -24,7 +24,7 @@
                 <span class="d-none d-sm-inline">Registrar Confor</span></a>
             </li>
             <li class="w-100">
-            <a href="#" class="nav-link text-white px-5" aria-current="page" style="margin-top: 5px;" >
+            <a href="#" onclick="RevisarConformidad()" class="nav-link text-white px-5" aria-current="page" style="margin-top: 5px;" >
                 <i class="fa-solid fa-list-check"></i>
                 <span class="d-none d-sm-inline">Revisar Confor</span></a>
             </li>
@@ -34,7 +34,7 @@
       <li class="nav-item">
         <a href="#suboficio" data-bs-toggle="collapse" class="nav-link text-white" aria-current="page" style="margin-top: 10px;" >
           <i class="fa-regular fa-folder-closed"></i>
-          <span class="ms-2 d-none d-sm-inline">Expedientes-Oficio</span><i class="ms-2 fa-solid fa-angle-down"></i>
+          <span class="ms-2 d-none d-sm-inline">Solicitud Exp</span><i class="ms-2 fa-solid fa-angle-down"></i>
         </a>
         <ul class="collapse nav flex-column ms-1" id="suboficio" data-bs-parent="#menu">
             <li class="w-100">
@@ -51,9 +51,9 @@
       </li>
       <!---------------------------------------------->  
       <li>
-        <a href="#" class="nav-link text-white">
-          <i class="fa fa-table"></i>
-          <span class="ms-2 d-none d-sm-inline">Products</span>
+        <a href="#" onclick="ExpRevisar()" class="nav-link text-white" aria-current="page" style="margin-top: 10px;" >
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span class="ms-2 d-none d-sm-inline">Expedientes a Revisar</span>
         </a>
       </li>
       <li>
