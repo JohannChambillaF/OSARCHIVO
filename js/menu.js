@@ -13,3 +13,13 @@ function CargarOficio(){
 		$('#resultado').html(e);
 	})
 }
+function RevisarConformidad(){
+	$.get('proyecto/revisarconfor.php', function(e){
+		$('#resultado').html(e);
+	})
+}
+function ExpRevisar(){
+	$.get('proyecto/exprevisar.php', function(e){
+		$('#resultado').html(e);
+	})
+}
