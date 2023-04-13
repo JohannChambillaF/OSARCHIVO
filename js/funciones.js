@@ -24,6 +24,32 @@ function agregar_datos(){
 
 	return false;
 }
+function agregar_datos_oficio(){
+
+	var datos = $("#frm_registrar_oficio").serialize();
+
+	$.ajax({
+		
+		method: "POST",
+		url: "controlador/insertconfor.php",
+		data: datos,
+
+		success: function(e){
+
+			if (e==1){
+				
+				alert('registro exitoso');
+				$('#frm_registrar_oficio').trigger('reset');
+				$('#tabla').load('proyecto/conformidad.php #tabla');
+
+			}else{
+				alert('error de registro');
+			}
+		}
+	});
+
+	return false;
+}
 /*function pagination(partida){
 	//alert('holaa');
 	$.ajax({

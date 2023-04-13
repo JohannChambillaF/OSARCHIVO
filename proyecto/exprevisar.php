@@ -3,6 +3,57 @@
  ?>
 
 <body>
+<div class="w3-container" style="margin: 15px;">
+	<div class="card" style="border-color:rgba(76, 150, 217);">
+		<div class="card-header" style="background-color: rgba(76, 150, 217);"><H5 style="color: #FFFF;">Lista para buscar Exp. en archivo</H5></div>
+		<div class="card-body">
+			<table class="table table-striped table-bordered" align="vertical" id="tablabusqueda">
+				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
+					<tr>
+                        <th class="text-center">SOLICITUD</th>
+						<th class="text-center">ALUMNO</th>
+						<th class="text-center">CÓDIGO</th>
+						<th class="text-center">ESCUELA</th>
+						<th class="text-center">MODALIDAD</th>
+						<th class="text-center">SEDE</th>
+                        <th class="text-center">ESTADO</th>
+                        <th class="text-center">OBSERVACION</th>
+					</tr>
+				</thead>
+				<tbody class="text-center" style='font-size: 12px;'><!--este id="tablaconfor" es para el buscador-->
+					<?php  
+
+					$sql = "SELECT r.tipo,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.estado, r.observacion
+						FROM registro r 
+						INNER JOIN escuela e ON r.idescuela = e.idescuela
+						INNER JOIN sede s ON r.idsede = s.idsede
+                        WHERE r.estado = 'INCOMPLETO'";
+
+					$ejecutar = mysqli_query($conexion, $sql);
+
+					while ($fila =mysqli_fetch_array($ejecutar))
+						//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
+
+						//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
+						{ 
+						?>
+							<tr>
+								<td><?=$fila[0]?></td>
+								<td><?=$fila[1]?></td>
+								<td><?=$fila[2]?></td>
+								<td><?=$fila[3]?></td>
+								<td><?=$fila[4]?></td>
+								<td><?=$fila[5]?></td>
+								<td><?=$fila[6]?></td>
+                                <td><?=$fila[7]?></td>
+							</tr>							
+					<?php }
+					?>
+				</tbody>
+			</table>
+		</div>
+	</div>			
+</div>
 <div style="margin: 15px; display: flex; flex-wrap: nowrap;">
 	<div class="card col-6"  style="margin-bottom: 15px; border-color:rgba(76, 150, 217);">
 		<div class="card-header" style="background-color: rgba(76, 150, 217);">
@@ -12,8 +63,7 @@
 			<form method="POST" id="frm_registrar">
 				<div class="row">
 					<div class="col-sm-6">
-						<input type="hidden" name="confor" id="confor" value="CONFORMIDAD">
-						<input type="hidden" name="estado" id="estado" value="INCOMPLETO">					
+						<input type="hidden" name="confor" id="confor" value="CONFORMIDAD">					
 						<div class="input-field">
 							<input type="date" name="fecreg" id="fecreg" class="form-control">
 						</div>
@@ -102,90 +152,9 @@
 		</div>
 	</div>							
 </div>
-<div class="w3-container" style="margin: 15px;">
-	<div class="card" style="border-color:rgba(76, 150, 217);">
-		<div class="card-header" style="background-color: rgba(76, 150, 217);"><H5 style="color: #FFFF;">Lista Conformidades</H5></div>
-		<div class="card-body">
-			<!--<form method="POST" id="frm_bustabla"> ESTE ES EL BUSCADORRRRRRRRRRRR
-				<div class="input-field">
-					<input type="text" name="busctabla" id="busctabla" placeholder="Buscar..." class="form-control" autocomplete="off" style="width: 20%;">
-				</div>
-			</form>
-			<div class="registros" id="agrega-registros"></div>
-			<center>
-				<ul class="pagination" id="pagination"></ul>
-			</center>-->
-			<table class="table table-striped table-bordered" align="vertical" id="tabla">
-				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
-					<tr>
-						
-						<th class="text-center">F REGISTRO</th>
-						<th class="text-center">N° REGISTRO</th>
-						<th class="text-center">ALUMNO</th>
-						<th class="text-center">CÓDIGO</th>
-						<th class="text-center">ESCUELA</th>
-						<th class="text-center">MODALIDAD</th>
-						<th class="text-center">SEDE</th>
-						<th class="text-center">ESTADO</th>
-						<th class="text-center" style="width: 15%;">ACCION</th>
-					</tr>
-				</thead>
-				<tbody class="text-center" style='font-size: 12px;'><!--este id="tablaconfor" es para el buscador-->
-					<?php  
 
-					$sql = "SELECT fechrecepcion,r.nregistro,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
-						FROM registro r 
-						INNER JOIN escuela e ON r.idescuela = e.idescuela
-						INNER JOIN sede s ON r.idsede = s.idsede
-						WHERE r.tipo = 'CONFORMIDAD'
-						ORDER BY idconfoficio DESC LIMIT 7";
-
-					$ejecutar = mysqli_query($conexion, $sql);
-
-					while ($fila =mysqli_fetch_array($ejecutar))
-						//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
-
-						//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
-						{ 
-						?>
-							<tr>
-								<td><?=$fila[0]?></td>
-								<td><?=$fila[1]?></td>
-								<td><?=$fila[2]?></td>
-								<td><?=$fila[3]?></td>
-								<td><?=$fila[4]?></td>
-								<td><?=$fila[5]?></td>
-								<td><?=$fila[6]?></td>
-								<td><?=$fila[10]?></td>
-								
-								<td>
-								<a href="" class="btn btn-warning" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
-								
-								<a href="" class="btn btn-danger" style="width: 30px; height: 35px;" name="deleteconfor" value="<?=$fila[0]?>;"><i class="material-symbols-outlined">delete</i></a>
-								</td>
-								
-							</tr>							
-					<?php }
-					?>
-				</tbody>
-			</table>
-			<div class="alert alert-danger" role="alert">Solo se muestra los ultimos 7 registros... Para confirmar que se guardo en la BD</div>
-		</div>
-	</div>			
-</div>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-<!--SCRIPT agregar_datos()-->
-<script>
-	$(document).ready(function(){
-		$("#btn_guardar").on('click', function(e){//hace referencia a la accion de prescionar el boton
-
-			e.preventDefault();//esto sirve para que la pagina no se recargue
-			agregar_datos();//esta llamando a la funcion creada en funciones.js
-
-		});
-	});	
-</script>
 <!--SCRIPT BUSQUEDA DE CODIGO-->
 <script>
 	$(document).ready(function () {
@@ -214,12 +183,11 @@
 	});
 </script>
 <!--SCRIPT llamado DATATABLE-->
-<!--
 <script>
 	$(document).ready(function(){
-		$('#tabla').DataTable({ 
+		$('#tablabusqueda').DataTable({ 
 				"destroy":true,
-				"lengthMenu" : [5 ,10, 15, 20],
+				"lengthMenu" : [6, 10, 20, 30],
 				"info":false,
 				"ordering":false,
 				"order": [[ 0, "desc" ]], //or asc 
@@ -266,7 +234,7 @@
 		    		]*/
 		});
 	});
-</script>-->
+</script>
 <!--SCRIPT BUSQUEDA DE TABLA CONFORMIDAD-->
 <!--
 <script>

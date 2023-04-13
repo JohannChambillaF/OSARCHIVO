@@ -13,9 +13,8 @@ $sede = $_POST['sede'];
 $celular = $_POST['celular'];
 $correo = $_POST['correo'];
 $dni = $_POST['dni'];
-$estado = $_POST['estado'];
 
-$sql = "CALL InsertarConf ('$confor','$fecreg','$numreg','$alumno','$codigo','$escuela','$modalidad','$sede','$celular','$correo','$dni','$estado')";
+$sql = "CALL InsertarConf ('$confor','$fecreg','$numreg','$alumno','$codigo','$escuela','$modalidad','$sede','$celular','$correo','$dni')";
 
 echo mysqli_query($conexion,$sql);
 
