@@ -12,6 +12,7 @@
 			<form method="POST" id="frm_registrar">
 				<div class="row">
 					<div class="col-sm-6">
+						<input class="form-control" name='idconfoficio' id='idconfoficio' value="0">
 						<input type="hidden" name="confor" id="confor" value="CONFORMIDAD">
 						<input type="hidden" name="estado" id="estado" value="INCOMPLETO">					
 						<div class="input-field">
@@ -46,12 +47,12 @@
 					<div class="col-sm-6">
 						<div class="input-field">
 							<select name="modalidad" id="modalidad" class="form-select">
-							<?php 
+								<?php 
 									$sql=$conexion->query("SELECT * FROM modalidad");
 									while ($esc=mysqli_fetch_array($sql))
 									{
 										$idmod=$esc['idmodalidad'];
-										$descrip=$esc['descripcion'];
+										$descrip=$esc['descmod'];
 									?>
 									<option hidden selected>Seleccione una Modalidad</option>
 									<option value="<?=$idmod?>"><?=$descrip?></option>
@@ -106,19 +107,11 @@
 	<div class="card" style="border-color:rgba(76, 150, 217);">
 		<div class="card-header" style="background-color: rgba(76, 150, 217);"><H5 style="color: #FFFF;">Lista Conformidades</H5></div>
 		<div class="card-body">
-			<!--<form method="POST" id="frm_bustabla"> ESTE ES EL BUSCADORRRRRRRRRRRR
-				<div class="input-field">
-					<input type="text" name="busctabla" id="busctabla" placeholder="Buscar..." class="form-control" autocomplete="off" style="width: 20%;">
-				</div>
-			</form>
-			<div class="registros" id="agrega-registros"></div>
-			<center>
-				<ul class="pagination" id="pagination"></ul>
-			</center>-->
 			<table class="table table-striped table-bordered" align="vertical" id="tabla">
 				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
 					<tr>
-						
+						<th class="text-center" style="display: none;">ID</th>
+						<th class="text-center">ESTADO</th>
 						<th class="text-center">F REGISTRO</th>
 						<th class="text-center">N° REGISTRO</th>
 						<th class="text-center">ALUMNO</th>
@@ -126,42 +119,52 @@
 						<th class="text-center">ESCUELA</th>
 						<th class="text-center">MODALIDAD</th>
 						<th class="text-center">SEDE</th>
-						<th class="text-center">ESTADO</th>
 						<th class="text-center" style="width: 15%;">ACCION</th>
 					</tr>
 				</thead>
 				<tbody class="text-center" style='font-size: 12px;'><!--este id="tablaconfor" es para el buscador-->
 					<?php  
 
-					$sql = "SELECT fechrecepcion,r.nregistro,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
+					$sql = "SELECT r.idconfoficio ,r.fechrecepcion,r.nregistro,r.alumno,r.codigo,e.nombresc,m.descmod,s.descripsede,r.celular,r.correo,r.dni,r.estado 
 						FROM registro r 
 						INNER JOIN escuela e ON r.idescuela = e.idescuela
 						INNER JOIN sede s ON r.idsede = s.idsede
-						WHERE r.tipo = 'CONFORMIDAD'
+						INNER JOIN modalidad m ON r.idmodalidad = m.idmodalidad
+						WHERE r.tipo = 'CONFORMIDAD' && r.estado = 'INCOMPLETO'
 						ORDER BY idconfoficio DESC LIMIT 7";
 
 					$ejecutar = mysqli_query($conexion, $sql);
 
-					while ($fila =mysqli_fetch_array($ejecutar))
+					while ($fila =mysqli_fetch_object($ejecutar))
 						//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
 
 						//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
 						{ 
 						?>
 							<tr>
-								<td><?=$fila[0]?></td>
-								<td><?=$fila[1]?></td>
-								<td><?=$fila[2]?></td>
-								<td><?=$fila[3]?></td>
-								<td><?=$fila[4]?></td>
-								<td><?=$fila[5]?></td>
-								<td><?=$fila[6]?></td>
-								<td><?=$fila[10]?></td>
-								
+								<td style="display: none;"><?=$fila->idconfoficio?></td>
+								<?php 
+									if($fila->estado =='INCOMPLETO')
+										echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
+									if($fila->estado =='COMPLETO')
+									echo '<td><img src="librerias/img/on.png" alt="" width="40" height="25"></td>';
+									if($fila->estado =='PROBLEMA')
+									echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
+								?>
+								<td><?=$fila->fechrecepcion?></td>
+								<td><?=$fila->nregistro?></td>
+								<td><?=$fila->alumno?></td>
+								<td><?=$fila->codigo?></td>
+								<td><?=$fila->nombresc?></td>
+								<td><?=$fila->descmod?></td>
+								<td><?=$fila->descripsede?></td>
+								<td style="display: none;"><?=$fila->celular?></td>
+								<td style="display: none;"><?=$fila->correo?></td>
+								<td style="display: none;"><?=$fila->dni?></td>
 								<td>
-								<a href="" class="btn btn-warning" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
+								<a href="#" class="btn btn-warning edit" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
 								
-								<a href="" class="btn btn-danger" style="width: 30px; height: 35px;" name="deleteconfor" value="<?=$fila[0]?>;"><i class="material-symbols-outlined">delete</i></a>
+								<a href="#" class="btn btn-danger" style="width: 30px; height: 35px;" id="deleteconfor" name="deleteconfor"><i class="material-symbols-outlined">delete</i></a>
 								</td>
 								
 							</tr>							
@@ -174,7 +177,6 @@
 	</div>			
 </div>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
 <!--SCRIPT agregar_datos()-->
 <script>
 	$(document).ready(function(){
@@ -208,81 +210,60 @@
 			}else{
 				$("#buscacodigo").css("display","none"); 
 			}
+		});
+	});
+</script>
+<!--SCRIPT JALAR DATOS A FORMULARIO-->
+<script>
+	$(document).ready(function(){
+		
+		$("body").on("click",".edit",function(e){
+			e.preventDefault();
+			var idconfoficio=$(this).attr("idconfoficio");
+			$("#idconfoficio").val(idconfoficio);
 
+			var fila=$(this);
+
+			var fecreg=fila.closest("tr").find("td:eq(2)").text();
+			$("#fecreg").val(fecreg);
+
+			var numreg=fila.closest("tr").find("td:eq(3)").text();
+			$("#numreg").val(numreg);
+
+			var alumno=fila.closest("tr").find("td:eq(4)").text();
+			$("#alumno").val(alumno);
+
+			var codigo=fila.closest("tr").find("td:eq(5)").text();
+			$("#codigo").val(codigo);
+
+			var escuela=fila.closest("tr").find("td:eq(6)").text();
+			$("#escuela option").filter(function() {
+			    return $(this).text() == escuela;
+			  }).prop("selected", true);
+			
+			var modalidad=fila.closest("tr").find("td:eq(7)").text();
+			$("#modalidad option").filter(function() {
+			    return $(this).text() == modalidad;
+			  }).prop("selected", true);
+
+			var sede=fila.closest("tr").find("td:eq(8)").text();
+			$("#sede option").filter(function() {
+			    return $(this).text() == sede;
+			  }).prop("selected", true);
+			
+			var celular=fila.closest("tr").find("td:eq(9)").text();
+			$("#celular").val(celular);
+
+			var correo=fila.closest("tr").find("td:eq(10)").text();
+			$("#correo").val(correo);
+
+			var dni=fila.closest("tr").find("td:eq(11)").text();
+			$("#dni").val(dni);
+
+			$("#btn_guardar").text("Actualizar Registro");
 
 		});
 	});
 </script>
-<!--SCRIPT llamado DATATABLE-->
-<!--
-<script>
-	$(document).ready(function(){
-		$('#tabla').DataTable({ 
-				"destroy":true,
-				"lengthMenu" : [5 ,10, 15, 20],
-				"info":false,
-				"ordering":false,
-				"order": [[ 0, "desc" ]], //or asc 
-				
-				dom: 'Bfrtip',//desaparece la casilla de filtro 5-10-15...
-				buttons: 
-				[
-					//'copy','excel', 'pdf'
-					{	
-						extend: 'excelHtml5',
-						text: '<i class="fa-regular fa-file-excel"></i>',
-						titleAttr: 'Exportar a Excel',
-						className: 'btn btn-success'
-					},
-					{	
-						extend: 'pdfHtml5',
-						text: '<i class="fa-solid fa-file-pdf"></i>',
-						titleAttr: 'Exportar a PDF',
-						className: 'btn btn-danger'
-					},
-					{	
-						extend: 'print',
-						text: '<i class="fa-solid fa-print"></i>',
-						titleAttr: 'Imprimir',
-						className: 'btn btn-info'
-					},
-				],
-				/*"ajax":{
-				    	"method":"POST",
-				    	"url": "controlador/tablaconfor.php"
-		    		},
-		    		"columns" : 
-		    		[
-		    			{"data":"idconfoficio"},
-		    			{"data":"fechrecepcion"},
-						{"data":"nregistro"},
-						{"data":"alumno"},
-						{"data":"codigo"},
-						{"data":"nombresc"},
-						{"data":"modalidad"},
-						{"data":"descripsede"},
-						{"data":"estado"},
-						{"defaultContent":"<a class='btn btn-warning' style='width: 30px; height: 35px;'><i class='material-symbols-outlined'>edit</i></a><a class='btn btn-danger' style='width: 30px; height: 35px;' name='deleteconfor'><i class='material-symbols-outlined'>delete</i></a>"}
-		    		]*/
-		});
-	});
-</script>-->
-<!--SCRIPT BUSQUEDA DE TABLA CONFORMIDAD-->
-<!--
-<script>
-	$(document).ready(function(){
-		$("#busctabla").on("keyup", function() {
-			var value = $(this).val().toLowerCase();
-		$("#tablaconfor tr").filter(function() {
-		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			});
-		});
-	});
-	</script>-->
-<!--SCRIPT DE TABLA CONFORMIDAD 02-->
-<!--
-<script type="text/javascript">
-		$(document).ready(pagination(1));
-	</script>-->
 </body>
 </html>
