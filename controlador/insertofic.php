@@ -2,6 +2,7 @@
 
 include "../conexion/conexion.php";
 
+$idconfoficio = $_POST['idconfoficio'];
 $confor = $_POST['confor'];
 $fecreg = $_POST['fecreg'];
 $numreg = $_POST['numreg'];
@@ -14,7 +15,14 @@ $celular = $_POST['celular'];
 $correo = $_POST['correo'];
 $dni = $_POST['dni'];
 
-$sql = "CALL InsertarConf ('$confor','$fecreg','$numreg','$alumno','$codigo','$escuela','$modalidad','$sede','$celular','$correo','$dni')";
+if ($idconfoficio == "0"){
+    $sql = "CALL InsertarConf ('$confor','$fecreg','$numreg','$alumno','$codigo','$escuela','$modalidad','$sede','$celular','$correo','$dni')";
+
+
+}else{
+
+}
+
 
 echo mysqli_query($conexion,$sql);
 
