@@ -261,6 +261,7 @@
 			$("#dni").val(dni);
 
 			$("#btn_guardar").text("Actualizar Registro");
+			$("#btn_guardar").css("background-color", "#56A925");
 
 		});
 	});
