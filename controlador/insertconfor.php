@@ -19,43 +19,9 @@ $estado = mysqli_real_escape_string($conexion,$_POST['estado']);
 if($idconfoficio == "0")
 {
     $sql = "CALL InsertarConf ('$confor','$fecreg','$numreg','$alumno','$codigo','$escuela','$modalidad','$sede','$celular','$correo','$dni','$estado')";
-
-    if($conexion -> query($sql))
-    {
-        $idconfoficio = $conexion->insert_id;
-        echo "<tr class='{$idconfoficio}'>
-            <td style='display: none;'>{$idconfoficio}</td>
-            <?php 
-                if({$estado} =='INCOMPLETO')
-                    echo '<td><img src='librerias/img/off.png' width='40' height='25'></td>';
-                if({$estado} =='COMPLETO')
-                echo '<td><img src='librerias/img/on.png'  width='40' height='25'></td>';
-                if({$estado} =='PROBLEMA')
-                echo '<td><img src='librerias/img/mediun.png' width='40' height='25'></td>';
-            ?>
-            <td>{$fecreg}</td>
-            <td>{$numreg}</td>
-            <td>{$alumno}</td>
-            <td>{$codigo}</td>
-            <td>{$escuela}</td>
-            <td>{$modalidad}</td>
-            <td>{$sede}</td>
-            <td style='display: none;'>{$celular}</td>
-            <td style='display: none;'>{$correo}</td>
-            <td style='display: none;'>{$dni}</td>
-            <td>
-            <a href='#' class='btn btn-warning edit' idconfoficio='<?=$fila->idconfoficio?>' style='width: 30px; height: 35px;'><i class='material-symbols-outlined'>edit</i></a>
-            
-            <a href='#' class='btn btn-danger' style='width: 30px; height: 35px;' id='deleteconfor' name='deleteconfor'><i class='material-symbols-outlined'>delete</i></a>
-            </td>
-            
-        </tr>";
-    }else{
-        
-    }
+}else{
+    $sql = "CALL ActualizarConf ('$idconfoficio','$fecreg','$numreg','$alumno','$codigo','$escuela','$modalidad','$sede','$celular','$correo','$dni')";
 }
-
-
 echo mysqli_query($conexion,$sql);
 
 ?> 
