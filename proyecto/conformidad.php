@@ -12,7 +12,7 @@
 			<form method="POST" id="frm_registrar">
 				<div class="row">
 					<div class="col-sm-6">
-						<input class="form-control" name='idconfoficio' id='idconfoficio' value="0">
+						<input type="hidden" class="form-control" name='idconfoficio' id='idconfoficio' value="0">
 						<input type="hidden" name="confor" id="confor" value="CONFORMIDAD">
 						<input type="hidden" name="estado" id="estado" value="INCOMPLETO">					
 						<div class="input-field">
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 				<div class="input-field">
-					<button type="submit" class="btn btn-secondary btn-block" name="btn_guardar" id="btn_guardar" style="width: 100%">Guardar</button>
+					<button type="submit" class="btnn btn-1" name="btn_guardar_actual" id="btn_guardar_actual" style="width: 100%">GUARDAR</button>
 				</div>
 			</form>
 			
@@ -164,7 +164,7 @@
 								<td>
 								<a href="#" class="btn btn-warning edit" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
 								
-								<a href="#" class="btn btn-danger" style="width: 30px; height: 35px;" id="deleteconfor" name="deleteconfor"><i class="material-symbols-outlined">delete</i></a>
+								<a href="#" class="btn btn-danger del" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 35px;" id="deleteconfor" name="deleteconfor"><i class="material-symbols-outlined">delete</i></a>
 								</td>
 								
 							</tr>							
@@ -177,15 +177,38 @@
 	</div>			
 </div>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<!--SCRIPT agregar_datos()-->
+<!--SCRIPT agregar y actualizar datos-->
 <script>
 	$(document).ready(function(){
-		$("#btn_guardar").on('click', function(e){//hace referencia a la accion de prescionar el boton
+		$("#btn_guardar_actual").on('click', function(e){//hace referencia a la accion de prescionar el boton
 
 			e.preventDefault();//esto sirve para que la pagina no se recargue
-			agregar_datos();//esta llamando a la funcion creada en funciones.js
+			agregar_actuali_confor();//esta llamando a la funcion creada en funciones.js
 
 		});
+	});	
+</script>
+<!--SCRIPT eliminar datos-->
+<script>
+	$(document).ready(function(){
+		$("body").on("click",".del",function(e){
+				e.preventDefault();
+				var idconfoficio=$(this).attr("idconfoficio");
+				var btn=$(this);
+				if(confirm("Are You Sure ? ")){
+					$.ajax({
+						type:'POST',
+						url:'controlador/deleteconfor.php',
+						data:{id:idconfoficio},
+						
+						success:function(res){
+							if(res){
+								btn.closest("tr").remove();
+							}
+						}
+					});
+				}
+			});
 	});	
 </script>
 <!--SCRIPT BUSQUEDA DE CODIGO-->
@@ -260,8 +283,8 @@
 			var dni=fila.closest("tr").find("td:eq(11)").text();
 			$("#dni").val(dni);
 
-			$("#btn_guardar").text("Actualizar Registro");
-			$("#btn_guardar").css("background-color", "#56A925");
+			$("#btn_guardar").text("ACTUALIZAR");
+			
 
 		});
 	});
