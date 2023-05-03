@@ -12,12 +12,14 @@
 			<form method="POST" id="frm_registrar_oficio">
 				<div class="row">
 					<div class="col-sm-6">
-						<input type="hidden" name="confor" id="confor" value="OFICIO">					
+						<input type="hidden" class="form-control" name='idconfoficio' id='idconfoficio' value="0">
+						<input type="hidden" name="ofic" id="ofic" value="OFICIO">
+						<input type="hidden" name="estado" id="estado" value="INCOMPLETO">						
 						<div class="input-field">
 							<input type="date" name="fecreg" id="fecreg" class="form-control">
 						</div>
 						<div class="input-field">
-							<input type="text" name="numreg" id="numreg" placeholder="Nro Registro" class="form-control" autocomplete="off">
+							<input type="text" name="numreg" id="numreg" placeholder="Nro Registro" class="form-control" autocomplete="off" required>
 						</div>
                         <div class="input-field">
 							<input type="text" name="noficio" id="noficio" placeholder="Nro Oficio" class="form-control" autocomplete="off">
@@ -54,7 +56,7 @@
 									while ($esc=mysqli_fetch_array($sql))
 									{
 										$idmod=$esc['idmodalidad'];
-										$descrip=$esc['descripcion'];
+										$descrip=$esc['descmod'];
 									?>
 									<option hidden selected>Seleccione una Modalidad</option>
 									<option value="<?=$idmod?>"><?=$descrip?></option>
@@ -82,7 +84,7 @@
 					</div>
 				</div>
 				<div class="input-field">
-					<button type="submit" class="btn btn-secondary btn-block" name="btn_guardar_ofic" id="btn_guardar" style="width: 100%;">Guardar</button>
+					<button type="submit" class="btnn btn-1" name="btn_guardar_ofic" id="btn_guardar_ofic" style="width: 100%;">GUARDAR</button>
 				</div>
 			</form>
 			
@@ -100,10 +102,11 @@
 	<div class="card" style="border-color:rgb(115 199 101);">
 		<div class="card-header" style="background-color: rgb(115 199 101);"><H5 style="color: #FFFF;">Lista Conformidades</H5></div>
 		<div class="card-body">
-			<table class="table table-striped table-bordered" align="vertical" id="tabla">
+			<table class="table table-striped table-bordered" align="vertical" id="tablaofic">
 				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
 					<tr>
-						<th class="text-center">ID</th>
+						<th class="text-center" style="display: none;">ID</th>
+						<th class="text-center">ESTADO</th>
 						<th class="text-center">F REGISTRO</th>
 						<th class="text-center">N° REGISTRO</th>
 						<th class="text-center">N° OFICIO</th>
@@ -112,46 +115,53 @@
 						<th class="text-center">ESCUELA</th>
 						<th class="text-center">MODALIDAD</th>
 						<th class="text-center">SEDE</th>
-						<th class="text-center">ESTADO</th>
 						<th class="text-center" style="width: 15%;">ACCION</th>
 					</tr>
 				</thead>
 				<tbody class="text-center" style='font-size: 12px;'><!--este id="tablaconfor" es para el buscador-->
-					<?php  
+				<?php  
 
-					$sql = "SELECT r.idconfoficio,r.fechrecepcion,r.nregistro,r.noficio,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.celular,r.correo,r.dni,r.estado 
-						FROM registro r 
-						INNER JOIN escuela e ON r.idescuela = e.idescuela
-						INNER JOIN sede s ON r.idsede = s.idsede
-						WHERE r.tipo = 'OFICIO'
-						ORDER BY idconfoficio DESC LIMIT 7";
+					$sql = "SELECT r.idconfoficio ,r.fechrecepcion,r.nregistro,r.noficio,r.alumno,r.codigo,e.nombresc,m.descmod,s.descripsede,r.estado 
+					FROM registro r 
+					INNER JOIN escuela e ON r.idescuela = e.idescuela
+					INNER JOIN sede s ON r.idsede = s.idsede
+					INNER JOIN modalidad m ON r.idmodalidad = m.idmodalidad
+					WHERE r.tipo = 'OFICIO' && r.estado = 'INCOMPLETO'
+					ORDER BY idconfoficio DESC LIMIT 7";
 
 					$ejecutar = mysqli_query($conexion, $sql);
 
-					while ($fila =mysqli_fetch_array($ejecutar))
-						//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
+					while ($fila =mysqli_fetch_object($ejecutar))
+					//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
 
-						//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
-						{ 
-						?>
-							<tr>
-								<td><?=$fila[0]?></td>
-								<td><?=$fila[1]?></td>
-								<td><?=$fila[2]?></td>
-								<td><?=$fila[3]?></td>
-								<td><?=$fila[4]?></td>
-								<td><?=$fila[5]?></td>
-								<td><?=$fila[6]?></td>
-								<td><?=$fila[7]?></td>
-								<td><?=$fila[8]?></td>
-								<td><?=$fila[12]?></td>
-								<td>
-								<a href="" class="btn btn-warning" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
-								
-								<a href="" class="btn btn-danger" style="width: 30px; height: 35px;" name="deleteconfor" value="<?=$fila[0]?>;"><i class="material-symbols-outlined">delete</i></a>
-								</td>
-								
-							</tr>							
+					//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
+					{ 
+					?>
+						<tr>
+							<td style="display: none;"><?=$fila->idconfoficio?></td>
+							<?php 
+								if($fila->estado =='INCOMPLETO')
+									echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
+								if($fila->estado =='COMPLETO')
+								echo '<td><img src="librerias/img/on.png" alt="" width="40" height="25"></td>';
+								if($fila->estado =='PROBLEMA')
+								echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
+							?>
+							<td><?=$fila->fechrecepcion?></td>
+							<td><?=$fila->nregistro?></td>
+							<td><?=$fila->noficio?></td>
+							<td><?=$fila->alumno?></td>
+							<td><?=$fila->codigo?></td>
+							<td><?=$fila->nombresc?></td>
+							<td><?=$fila->descmod?></td>
+							<td><?=$fila->descripsede?></td>
+							<td>
+							<a href="#" class="btn btn-warning editofic" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 35px;"><i class="material-symbols-outlined">edit</i></a>
+							
+							<a href="#" class="btn btn-danger delofic" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 35px;" id="deleteconfor" name="deleteconfor"><i class="material-symbols-outlined">delete</i></a>
+							</td>
+							
+						</tr>							
 					<?php }
 					?>
 				</tbody>
@@ -162,13 +172,13 @@
 </div>
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-<!--SCRIPT agregar_datos()-->
+<!--SCRIPT agregar_oficios()-->
 <script>
 	$(document).ready(function(){
 		$("#btn_guardar_ofic").on('click', function(e){//hace referencia a la accion de prescionar el boton
 
 			e.preventDefault();//esto sirve para que la pagina no se recargue
-			agregar_datos_oficio();//esta llamando a la funcion creada en funciones.js
+			agregar_actuali_oficio();//esta llamando a la funcion creada en funciones.js
 
 		});
 	});	
@@ -196,6 +206,77 @@
 				$("#buscacodigo").css("display","none"); 
 			}
 
+
+		});
+	});
+</script>
+<!--SCRIPT eliminar datos-->
+<script>
+	$(document).ready(function(){
+		$("body").on("click",".delofic",function(e){
+				e.preventDefault();
+				var idconfoficio=$(this).attr("idconfoficio");
+				var btn=$(this);
+				if(confirm("Are You Sure ? ")){
+					$.ajax({
+						type:'POST',
+						url:'controlador/deleteofic.php',
+						data:{id:idconfoficio},
+						
+						success:function(res){
+							if(res){
+								btn.closest("tr").remove();
+								$('#tablaofic').load('proyecto/oficio.php #tablaofic');
+							}
+						}
+					});
+				}
+			});
+	});	
+</script>
+<!--SCRIPT JALAR DATOS A FORMULARIO-->
+<script>
+	$(document).ready(function(){
+		
+		$("body").on("click",".editofic",function(e){
+			e.preventDefault();
+			var idconfoficio=$(this).attr("idconfoficio");
+			$("#idconfoficio").val(idconfoficio);
+
+			var fila=$(this);
+
+			var fecreg=fila.closest("tr").find("td:eq(2)").text();
+			$("#fecreg").val(fecreg);
+
+			var numreg=fila.closest("tr").find("td:eq(3)").text();
+			$("#numreg").val(numreg);
+
+			var numreg=fila.closest("tr").find("td:eq(4)").text();
+			$("#noficio").val(numreg);
+
+			var alumno=fila.closest("tr").find("td:eq(5)").text();
+			$("#alumno").val(alumno);
+
+			var codigo=fila.closest("tr").find("td:eq(6)").text();
+			$("#codigo").val(codigo);
+
+			var escuela=fila.closest("tr").find("td:eq(7)").text();
+			$("#escuela option").filter(function() {
+			    return $(this).text() == escuela;
+			  }).prop("selected", true);
+			
+			var modalidad=fila.closest("tr").find("td:eq(8)").text();
+			$("#modalidad option").filter(function() {
+			    return $(this).text() == modalidad;
+			  }).prop("selected", true);
+
+			var sede=fila.closest("tr").find("td:eq(9)").text();
+			$("#sede option").filter(function() {
+			    return $(this).text() == sede;
+			  }).prop("selected", true);
+
+			$("#btn_guardar_ofic").text("ACTUALIZAR");
+			
 
 		});
 	});
