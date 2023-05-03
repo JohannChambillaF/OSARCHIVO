@@ -29,3 +29,76 @@ function agregar_actuali_confor(){
 		}
 	});
 }
+function agregar_actuali_oficio(){
+	var btn=$(this);
+	var id=$("#idconfoficio").val();
+
+	$.ajax({
+		type:'POST',
+		url:'controlador/insertofic.php',
+		data:$("#frm_registrar_oficio").serialize(),
+		beforeSend:function(){
+			$(btn).text("Wait...");
+		},
+		success:function(res){
+			
+			var id=$("#idconfoficio").val();
+			
+			if(id=="0"){
+				$("#tablaofic").find("tbody").append(res);
+				alert('registro exitoso');
+				$('#frm_registrar_oficio').trigger('reset');
+				$('#tablaofic').load('proyecto/oficio.php #tablaofic');
+			}else{
+				$("#tablaofic").find("."+id).html(res);
+				alert('registro actualizado');
+				$('#frm_registrar_oficio').trigger('reset');
+				$('#tablaofic').load('proyecto/oficio.php #tablaofic');
+				$("#btn_guardar_ofic").text("Guardar");
+				$("#btn_guardar_ofic").css("btn-secondary");
+			}
+		}
+	});
+}
+function conf_completo(){
+
+	var btn=$(this);
+	var id=$("#idconfoficio").val();
+
+	$.ajax({
+		type:'POST',
+		url:'controlador/actualicompleto.php',
+		data:$("#frm_conf_atencion").serialize(),
+		beforeSend:function(){
+			$(btn).text("Wait...");
+		},
+		success:function(res){
+			
+			var id=$("#idconfoficio").val();
+			
+			if(id=="0"){
+				
+			}else{
+				$("#tablatenc").find("."+id).html(res);
+				alert('registro actualizado');
+				$('#frm_conf_atencion').trigger('reset');
+				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
+			}
+		}
+	});
+}
+function conf_filtro(){
+	var f_ingreso = $('input[name=fecha_ingreso]').val();
+	var f_fin = $('input[name=fechaFin]').val();
+	console.log(f_ingreso + '' + f_fin);
+
+	if(f_ingreso !="" && f_fin !="")
+		{
+			$.post("controlador/filtroconfor.php", {f_ingreso, f_fin}, function (data) {
+				$(".resultado").html(data);
+				$("#loaderFiltro").html('<div class="alert alert-success" style="height: 30px;padding: 1px;">Registros encontrados</div>');
+			});  
+		}else{
+			$("#loaderFiltro").html('<p style="color:red;  font-weight:bold;">Debe seleccionar ambas fechas</p>');
+		}
+}
