@@ -62,28 +62,40 @@ function agregar_actuali_oficio(){
 }
 function conf_completo(){
 
-	var btn=$(this);
+	var datos = $('#frm_conf_atencion').serialize();
 	var id=$("#idconfoficio").val();
 
 	$.ajax({
 		type:'POST',
 		url:'controlador/actualicompleto.php',
-		data:$("#frm_conf_atencion").serialize(),
-		beforeSend:function(){
-			$(btn).text("Wait...");
-		},
+		data:datos,
 		success:function(res){
 			
+			if (res==1){
+				alert('registro actualizado');
+				$('#frm_conf_atencion').trigger('reset');
+				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
+				$('#tablaconfcomp').load('proyecto/revisarconfor.php #tablaconfcomp');
+
+			}else{
+				alert('Error de registro');
+				$('#frm_conf_atencion').trigger('reset');
+				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
+				$('#tablaconfcomp').load('proyecto/revisarconfor.php #tablaconfcomp');
+			}
+
+			/*
 			var id=$("#idconfoficio").val();
 			
 			if(id=="0"){
-				
+				alert('registro NO actualizado ERROR');
 			}else{
 				$("#tablatenc").find("."+id).html(res);
 				alert('registro actualizado');
 				$('#frm_conf_atencion').trigger('reset');
 				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
-			}
+				$('#tablaconfcomp').load('proyecto/revisarconfor.php #tablaconfcomp');
+			}*/
 		}
 	});
 }
@@ -99,6 +111,6 @@ function conf_filtro(){
 				$("#loaderFiltro").html('<div class="alert alert-success" style="height: 30px;padding: 1px;">Registros encontrados</div>');
 			});  
 		}else{
-			$("#loaderFiltro").html('<p style="color:red;  font-weight:bold;">Debe seleccionar ambas fechas</p>');
+			$("#loaderFiltro").html('<div class="alert alert-danger" style="height: 30px;padding: 1px;">Registros NO encontrados</div>');
 		}
 }
