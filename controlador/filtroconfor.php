@@ -10,7 +10,7 @@ $sql = "SELECT r.idconfoficio ,r.alumno,e.nombresc,m.descmod,s.descripsede,r.est
         INNER JOIN escuela e ON r.idescuela = e.idescuela
         INNER JOIN sede s ON r.idsede = s.idsede
         INNER JOIN modalidad m ON r.idmodalidad = m.idmodalidad
-        WHERE r.tipo = 'CONFORMIDAD' && r.estado = 'INCOMPLETO' && r.fechrecepcion BETWEEN '$fechaInit' AND '$fechaFin' ORDER BY fechrecepcion ASC";
+        WHERE r.tipo = 'CONFORMIDAD' && r.estado = 'REGISTRADO' && r.fechrecepcion BETWEEN '$fechaInit' AND '$fechaFin' ORDER BY fechrecepcion ASC";
 $query = mysqli_query($conexion, $sql);
 
 ?>
@@ -40,12 +40,12 @@ $query = mysqli_query($conexion, $sql);
                 <tr>
                     <td style="display: none;"><?=$fila->idconfoficio?></td>
                     <?php 
-                        if($fila->estado =='INCOMPLETO')
-                            echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
+                        if($fila->estado =='REGISTRADO')
+                        echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
                         if($fila->estado =='COMPLETO')
                         echo '<td><img src="librerias/img/on.png" alt="" width="40" height="25"></td>';
-                        if($fila->estado =='PROBLEMA')
-                        echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
+                        if($fila->estado =='OBSERVADO')
+                        echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
                     ?>
                     <td><?=$fila->alumno?></td>
                     <td><?=$fila->nombresc?></td>
