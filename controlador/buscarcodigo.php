@@ -39,12 +39,14 @@ if(isset($_POST['input'])){
                             <td><?=$alumno;?></td>
                             <td><?=$codigo;?></td>
                             <?php 
-									if($estado =='INCOMPLETO')
-										echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
-									if($estado =='COMPLETO')
-									echo '<td><img src="librerias/img/on.png" alt="" width="40" height="25"></td>';
-									if($estado =='PROBLEMA')
-									echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
+                                if($estado =='REGISTRADO')
+                                    echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
+                                if($estado =='COMPLETO')
+                                echo '<td><img src="librerias/img/on.png" alt="" width="40" height="25"></td>';
+                                if($estado =='OBSERVADO')
+                                echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
+                                if($estado =='PROBLEMA')
+                                echo '<td><img src="librerias/img/problem.png" alt="" width="40" height="25"></td>';
 								?>
                             <td><?=$fechenvio;?></td>
                         </tr>
