@@ -90,7 +90,7 @@
 								<td style="display: none;"><?=$fila->ubicacion?></td>
 								<td style="display: none;"><?=$fila->observacion?></td>
 								<td>
-								<a href="#" class="btn btn-success verifconfor" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 25px;"><i class="fa-solid fa-arrow-right"></i></a>
+								<a href="#" class="btn btn-success verifconfor" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 25px;--bs-btn-padding-y: 0rem;"><i class="fa-solid fa-arrow-right"></i></a>
 								</td>
 								
 							</tr>							
@@ -199,14 +199,14 @@
 					<tr>
 						<th class="text-center" style="display: none;">ID</th>
 						<th class="text-center">ESTADO</th>
-						<th class="text-center">F REGISTRO</th>
+						<th class="text-center">FECHA REGISTRO</th>
 						<th class="text-center">N° REGISTRO</th>
 						<th class="text-center" style="width: 13%;">ALUMNO</th>
 						<th class="text-center">CÓDIGO</th>
 						<th class="text-center">ESCUELA</th>
 						<th class="text-center" style="width: 13%;">MODALIDAD</th>
 						<th class="text-center">SEDE</th>
-						<th class="text-center">F ENVIO</th>
+						<th class="text-center">FECHA ATENCION</th>
 						<th class="text-center">NRO ATENCION</th>
 						<th class="text-center">UBICACION</th>
 						<th class="text-center">OBSERVACION</th>
