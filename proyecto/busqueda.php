@@ -11,192 +11,119 @@
 				<thead class="table-primary" style='font-size: 12px; color: #626161;'>
 					<tr>
                         <th class="text-center">SOLICITUD</th>
-						<th class="text-center">F REGISTRO</th>
+						<th class="text-center">FECHA REGISTRO</th>
 						<th class="text-center">N° REGISTRO</th>
                         <th class="text-center">N° OFICIO</th>
 						<th class="text-center">ALUMNO</th>
 						<th class="text-center">CÓDIGO</th>
 						<th class="text-center">ESCUELA</th>
-						<th class="text-center">MODALIDAD</th>
+						<th class="text-center" style="width: 7%;">MODALIDAD</th>
 						<th class="text-center">SEDE</th>
-						<th class="text-center">N° OFIC ENVIO</th>
+						<th class="text-center">NRO ATENCION</th>
                         <th class="text-center">ESTADO</th>
-                        <th class="text-center">OBSERVACION</th>
-                        <th class="text-center">F ENVIO</th>
+                        <th class="text-center" style="width: 10%;">OBSERVACION</th>
+                        <th class="text-center" style="width: 6%;">FECHA ATENCION</th>
+						<th class="text-center" style="display: none;">CELULAR</th>
+						<th class="text-center" style="display: none;">CORREO</th>
+						<th class="text-center" style="display: none;">DNI</th>
+						<th class="text-center">ACCION</th>
 					</tr>
 				</thead>
 				<tbody class="text-center" style='font-size: 12px;'><!--este id="tablaconfor" es para el buscador-->
 					<?php  
 
-					$sql = "SELECT r.tipo,r.fechrecepcion,r.nregistro,r.noficio,r.alumno,r.codigo,e.nombresc,r.modalidad,s.descripsede,r.noficioenvio,r.estado, r.observacion,r.fechenvio
-						FROM registro r 
-						INNER JOIN escuela e ON r.idescuela = e.idescuela
-						INNER JOIN sede s ON r.idsede = s.idsede";
+					$sql = "SELECT r.tipo,r.fechrecepcion,r.nregistro,r.noficio,r.alumno,r.codigo,e.nombresc,m.descmod,s.descripsede,r.atencion,r.estado, r.observacion,r.fechenvio,r.celular,r.correo,r.dni
+							FROM registro r 
+							INNER JOIN escuela e ON r.idescuela = e.idescuela 
+							INNER JOIN sede s ON r.idsede = s.idsede 
+							INNER JOIN modalidad m ON r.idmodalidad = m.idmodalidad;";
 
 					$ejecutar = mysqli_query($conexion, $sql);
 
-					while ($fila =mysqli_fetch_array($ejecutar))
+					while ($fila = mysqli_fetch_object($ejecutar))
 						//mysqli_fetch_array jala los datos de la BD como arrays (esto sirve cuando una tabla tiene nombres con columnas iguales esta es una forma de diferenciarlas ya que si se duplicasa nombre al llamar datos de BD habria errores)
 
 						//mysqli_fetch_object jala los datos pero con los mismos nombres como estan las columnas en la BD 
 						{ 
 						?>
 							<tr>
-								<td><?=$fila[0]?></td>
-								<td><?=$fila[1]?></td>
-								<td><?=$fila[2]?></td>
-								<td><?=$fila[3]?></td>
-								<td><?=$fila[4]?></td>
-								<td><?=$fila[5]?></td>
-								<td><?=$fila[6]?></td>
-								<td><?=$fila[7]?></td>
-                                <td><?=$fila[8]?></td>
-                                <td><?=$fila[9]?></td>
-                                <td><?=$fila[10]?></td>
-                                <td><?=$fila[11]?></td>
-								<td><?=$fila[12]?></td>
+								<td><?=$fila->tipo?></td>
+								<td><?=$fila->fechrecepcion?></td>
+								<td><?=$fila->nregistro?></td>
+								<td><?=$fila->noficio?></td>
+								<td><?=$fila->alumno?></td>
+								<td><?=$fila->codigo?></td>
+								<td><?=$fila->nombresc?></td>
+								<td><?=$fila->descmod?></td>
+								<td><?=$fila->descripsede?></td>
+								<td><?=$fila->atencion?></td>
+								<td><?php if($fila->estado =='PROBLEMA')
+									echo '<img src="librerias/img/problem.png" alt="" width="40" height="25">';
+									if($fila->estado =='COMPLETO')
+									echo '<img src="librerias/img/on.png" alt="" width="40" height="25">';
+									if($fila->estado =='OBSERVADO')
+									echo '<img src="librerias/img/off.png" alt="" width="40" height="25">';
+									if($fila->estado =='REGISTRADO')
+									echo '<img src="librerias/img/mediun.png" alt="" width="40" height="25">';
+									?>
+								</td>
+                                <td><?=$fila->observacion?></td>
+								<td><?=$fila->fechenvio?></td>
+								<td style="display: none;"><?=$fila->celular?></td>
+								<td style="display: none;"><?=$fila->correo?></td>
+								<td style="display: none;"><?=$fila->dni?></td>
+								<td>
+								<a href="#" class="btn btn-warning datos" idconfoficio="<?=$fila->idconfoficio?>" style="width: 30px; height: 25px;--bs-btn-padding-y: 0rem;"><i class="fa-solid fa-arrow-right"></i></a>
+								</td>
 							</tr>							
 					<?php }
 					?>
 				</tbody>
 			</table>
+			<div class="alert alert-danger" role="alert">Solo se muestra los ultimos 5 registro...  
+				<img src="librerias/img/on.png" width="40" height="25"> COMPLETO
+				<img src="librerias/img/off.png" width="40" height="25"> OBSERVADO
+				<img src="librerias/img/problem.png" width="40" height="25"> PROBLEMA
+				<img src="librerias/img/mediun.png" width="40" height="25"> REGISTRADO
+			</div>
 		</div>
 	</div>			
 </div>
 <div style="margin: 15px; display: flex; flex-wrap: nowrap;">
 	<div class="card col-6"  style="margin-bottom: 15px; border-color:rgba(76, 150, 217);">
 		<div class="card-header" style="background-color: rgba(76, 150, 217);">
-			<H5 style="color: #FFFF;">Registro Conformidades</H5>
+			<H5 style="color: #FFFF;">Datos de Contacto</H5>
 		</div>
 		<div class="card-body text-center">
-			<form method="POST" id="frm_registrar">
-				<div class="row">
-					<div class="col-sm-6">
-						<input type="hidden" name="confor" id="confor" value="CONFORMIDAD">					
-						<div class="input-field">
-							<input type="date" name="fecreg" id="fecreg" class="form-control">
-						</div>
-						<div class="input-field">
-							<input type="text" name="numreg" id="numreg" placeholder="Nro Registro" class="form-control" autocomplete="off">
-						</div>
-						<div class="input-field">
-							<input type="text" name="alumno" id="alumno" placeholder="Alumno" class="form-control" autocomplete="off">
-						</div>
-						<div class="input-field" style="display: flex; flex-wrap: nowrap;">
-							<input type="text" name="codigo" id="codigo" placeholder="Código" class="form-control" autocomplete="off">	
-						</div>
-						<div class="input-field">
-							<select name="escuela" id="escuela" class="form-select" required>
-								<?php 
-									$sql=$conexion->query("SELECT * FROM escuela");
-									while ($esc=mysqli_fetch_array($sql))
-									{
-										$id=$esc['idescuela'];
-										$nomesc=$esc['nombresc'];
-									?>
-									<option hidden selected>Seleccione una Escuela</option>
-									<option value="<?=$id?>"><?=$nomesc?></option>
-									<?php
-									}
-								?>
-							</select>
-						</div>
-					</div>
+			<form method="POST">
+				<div class="row">			
 					<div class="col-sm-6">
 						<div class="input-field">
-							<select name="modalidad" id="modalidad" class="form-select">
-							<?php 
-									$sql=$conexion->query("SELECT * FROM modalidad");
-									while ($esc=mysqli_fetch_array($sql))
-									{
-										$idmod=$esc['idmodalidad'];
-										$descrip=$esc['descripcion'];
-									?>
-									<option hidden selected>Seleccione una Modalidad</option>
-									<option value="<?=$idmod?>"><?=$descrip?></option>
-									<?php
-									}
-								?>
-							</select>
-						</div>
-						<div class="input-field">
-							<select name="sede" id="sede" class="form-select">
-								<?php 
-									$sql=$conexion->query("SELECT * FROM sede");
-									while ($sed=mysqli_fetch_array($sql))
-									{
-										$id=$sed['idsede'];
-										$nomsed=$sed['descripsede'];
-									?>
-									<option hidden selected>Seleccione una Sede</option>
-									<option value="<?=$id?>"><?=$nomsed?></option>
-									<?php
-									}
-								?>
-							</select>
-						</div>
-						<div class="input-field">
-							<input type="text" name="celular" value="" id="celular" placeholder="Celular" class="form-control" autocomplete="off">	
-						</div>
-						<div class="input-field">
-							<input type="text" name="correo" value="" id="correo" placeholder="Correo" class="form-control" autocomplete="off">	
-						</div>
-						<div class="input-field">
-							<input type="text" name="dni" value="" id="dni" placeholder="DNI" class="form-control" autocomplete="off">	
+							<input type="text" name="celular" id="celular" placeholder="Celular" class="form-control" disabled >
 						</div>
 					</div>
-				</div>
-				<div class="input-field">
-					<button type="submit" class="btn btn-secondary btn-block" name="btn_guardar" id="btn_guardar" style="width: 100%">Guardar</button>
+                    <div class="col-sm-6">
+						<input type="text" name="dni" id="dni" placeholder="DNI" class="form-control" autocomplete="off" disabled >
+                    </div>
+					<div class="col-sm-12">
+						<div class="input-field">
+							<input type="text" name="correo" id="correo" placeholder="Correo" class="form-control" disabled>
+						</div>
+					</div>
 				</div>
 			</form>
-			
 		</div>		
-	</div>
-	<div class="card col-6 ms-2"  style="margin-bottom: 15px; border-color:rgba(76, 150, 217);">
-		<div class="card-header" style="background-color: rgba(76, 150, 217);"><H5 style="color: #FFFF;">Validación Expediente</H5>
-		</div>
-		<div class="card-body text-center">
-			<div id="buscacodigo"></div>			
-		</div>
-	</div>							
+	</div>					
 </div>
 
 <!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-<!--SCRIPT BUSQUEDA DE CODIGO-->
-<script>
-	$(document).ready(function () {
-
-		$("#codigo").keyup(function(){
-			var input = $(this).val();
-			//alert(input);
-
-			if(input != ""){
-				$.ajax({
-					url: "controlador/buscarcodigo.php",
-					method: "POST",
-					data:{input:input}, 
-
-					success:function(data){
-						$("#buscacodigo").html(data);
-						$("#buscacodigo").css("display","block");
-					}
-				});
-			}else{
-				$("#buscacodigo").css("display","none"); 
-			}
-
-
-		});
-	});
-</script>
 <!--SCRIPT llamado DATATABLE-->
 <script>
 	$(document).ready(function(){
 		$('#tablabusqueda').DataTable({ 
 				"destroy":true,
-				"lengthMenu" : [6, 10, 20, 30],
+				"lengthMenu" : [7, 15, 20, 30],
 				"info":false,
 				"ordering":false,
 				"order": [[ 0, "desc" ]], //or asc 
@@ -242,24 +169,31 @@
 						{"defaultContent":"<a class='btn btn-warning' style='width: 30px; height: 35px;'><i class='material-symbols-outlined'>edit</i></a><a class='btn btn-danger' style='width: 30px; height: 35px;' name='deleteconfor'><i class='material-symbols-outlined'>delete</i></a>"}
 		    		]*/
 		});
+		$('.dataTables_filter input[type="search"]').css({'width':'500px','height':'40px','display':'inline-block'});
 	});
 </script>
-<!--SCRIPT BUSQUEDA DE TABLA CONFORMIDAD-->
-<!--
+<!--SCRIPT JALAR DATOS A FORMULARIO-->
 <script>
 	$(document).ready(function(){
-		$("#busctabla").on("keyup", function() {
-			var value = $(this).val().toLowerCase();
-		$("#tablaconfor tr").filter(function() {
-		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			});
+		
+		$("body").on("click",".datos",function(e){
+			e.preventDefault();
+			var idconfoficio=$(this).attr("idconfoficio");
+			$("#idconfoficio").val(idconfoficio);
+
+			var fila=$(this);
+			
+			var celular=fila.closest("tr").find("td:eq(13)").text();
+			$("#celular").val(celular);
+
+			var dni=fila.closest("tr").find("td:eq(15)").text();
+			$("#dni").val(dni);
+
+			var correo=fila.closest("tr").find("td:eq(14)").text();
+			$("#correo").val(correo);
+			
 		});
 	});
-	</script>-->
-<!--SCRIPT DE TABLA CONFORMIDAD 02-->
-<!--
-<script type="text/javascript">
-		$(document).ready(pagination(1));
-	</script>-->
+</script>
 </body>
 </html>
