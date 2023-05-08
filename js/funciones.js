@@ -76,26 +76,13 @@ function conf_completo(){
 				$('#frm_conf_atencion').trigger('reset');
 				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
 				$('#tablaconfcomp').load('proyecto/revisarconfor.php #tablaconfcomp');
-
+				$('#totalfiltro').load('proyecto/revisarconfor.php #totalfiltro');
 			}else{
 				alert('Error de registro');
 				$('#frm_conf_atencion').trigger('reset');
 				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
 				$('#tablaconfcomp').load('proyecto/revisarconfor.php #tablaconfcomp');
 			}
-
-			/*
-			var id=$("#idconfoficio").val();
-			
-			if(id=="0"){
-				alert('registro NO actualizado ERROR');
-			}else{
-				$("#tablatenc").find("."+id).html(res);
-				alert('registro actualizado');
-				$('#frm_conf_atencion').trigger('reset');
-				$('#tablatenc').load('proyecto/revisarconfor.php #tablatenc');
-				$('#tablaconfcomp').load('proyecto/revisarconfor.php #tablaconfcomp');
-			}*/
 		}
 	});
 }
