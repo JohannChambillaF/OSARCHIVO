@@ -19,14 +19,16 @@
 					</div>
 					<div class="col-sm-4">
 						<div class="row">
-							<div class="col-6"><button class="btn btn-outline-warning" style="width:70px; height:38px;" id="filtro">Filtrar</button></div>
-							<div class="col-6 text-center" >
+							<div class="col-4"><button class="btn btn-outline-warning" style="width:70px; height:38px;" id="filtro">Filtrar</button></div>
+							<div class="col-8 text-center" >
 								<?php
 									$sql = "SELECT * FROM registro	WHERE tipo = 'CONFORMIDAD' && estado = 'REGISTRADO'";
 									$query = mysqli_query($conexion, $sql);
 									$total   = mysqli_num_rows($query);
-									echo'<div class="alert alert-success" style="height: 38px;padding: 5px;">Total: ('. $total .')</div>';
 								?>
+								<div style="width:90px; padding:7px;" id="totalfiltro">
+									<h6>Regist. <?=$total?></h6>
+								</div> 
 							</div>
 						</div>
 					</div>
