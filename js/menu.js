@@ -19,7 +19,7 @@ function RevisarConformidad(){
 	})
 }
 function ExpRevisar(){
-	$.get('proyecto/exprevisar.php', function(e){
+	$.get('proyecto/revisarexp.php', function(e){
 		$('#resultado').html(e);
 	})
 }

@@ -9,12 +9,12 @@
 			<H5 style="color: #FFFF;">Registro Oficio</H5>
 		</div>
 		<div class="card-body text-center">
-			<form method="POST" id="frm_registrar_oficio">
+			<form method="POST" id="frm_regoficio">
 				<div class="row">
 					<div class="col-sm-6">
 						<input type="hidden" class="form-control" name='idconfoficio' id='idconfoficio' value="0">
 						<input type="hidden" name="ofic" id="ofic" value="OFICIO">
-						<input type="hidden" name="estado" id="estado" value="INCOMPLETO">						
+						<input type="hidden" name="estado" id="estado" value="REGISTRADO">						
 						<div class="input-field">
 							<input type="date" name="fecreg" id="fecreg" class="form-control">
 						</div>
@@ -84,7 +84,7 @@
 					</div>
 				</div>
 				<div class="input-field">
-					<button type="submit" class="btnn btn-1" name="btn_guardar_ofic" id="btn_guardar_ofic" style="width: 100%;">GUARDAR</button>
+					<button type="submit" class="btnn btn-1" name="btnsaveofic" id="btnsaveofic" style="width: 100%;">GUARDAR</button>
 				</div>
 			</form>
 			
@@ -126,7 +126,7 @@
 					INNER JOIN escuela e ON r.idescuela = e.idescuela
 					INNER JOIN sede s ON r.idsede = s.idsede
 					INNER JOIN modalidad m ON r.idmodalidad = m.idmodalidad
-					WHERE r.tipo = 'OFICIO' && r.estado = 'INCOMPLETO'
+					WHERE r.tipo = 'OFICIO' && r.estado = 'REGISTRADO'
 					ORDER BY idconfoficio DESC LIMIT 7";
 
 					$ejecutar = mysqli_query($conexion, $sql);
@@ -140,12 +140,12 @@
 						<tr>
 							<td style="display: none;"><?=$fila->idconfoficio?></td>
 							<?php 
-								if($fila->estado =='INCOMPLETO')
-									echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
+								if($fila->estado =='REGISTRADO')
+								echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
 								if($fila->estado =='COMPLETO')
 								echo '<td><img src="librerias/img/on.png" alt="" width="40" height="25"></td>';
-								if($fila->estado =='PROBLEMA')
-								echo '<td><img src="librerias/img/mediun.png" alt="" width="40" height="25"></td>';
+								if($fila->estado =='OBSERVADO')
+								echo '<td><img src="librerias/img/off.png" alt="" width="40" height="25"></td>';
 							?>
 							<td><?=$fila->fechrecepcion?></td>
 							<td><?=$fila->nregistro?></td>
@@ -175,7 +175,7 @@
 <!--SCRIPT agregar_oficios()-->
 <script>
 	$(document).ready(function(){
-		$("#btn_guardar_ofic").on('click', function(e){//hace referencia a la accion de prescionar el boton
+		$("#btnsaveofic").on('click', function(e){//hace referencia a la accion de prescionar el boton
 
 			e.preventDefault();//esto sirve para que la pagina no se recargue
 			agregar_actuali_oficio();//esta llamando a la funcion creada en funciones.js
@@ -193,7 +193,7 @@
 
 			if(input != ""){
 				$.ajax({
-					url: "controlador/buscarcodigo.php",
+					url: "controlador/buscarcodigo2.php",
 					method: "POST",
 					data:{input:input}, 
 
@@ -275,8 +275,41 @@
 			    return $(this).text() == sede;
 			  }).prop("selected", true);
 
-			$("#btn_guardar_ofic").text("ACTUALIZAR");
+			$("#btnsaveofic").text("ACTUALIZAR");
 			
+
+		});
+	});
+</script>
+<!--SCRIPT JALAR DATOS DESDE TABLA BUSQUED CODIGO A FORMULARIO--->
+<script>
+	$(document).ready(function(){
+		
+		$("body").on("click",".editofic2",function(e){
+			e.preventDefault();
+
+			var fila=$(this);
+
+			var alumno=fila.closest("tr").find("td:eq(3)").text();
+			$("#alumno").val(alumno);
+
+			var codigo=fila.closest("tr").find("td:eq(4)").text();
+			$("#codigo").val(codigo);
+
+			var escuela=fila.closest("tr").find("td:eq(7)").text();
+			$("#escuela option").filter(function() {
+			    return $(this).text() == escuela;
+			  }).prop("selected", true);
+			
+			var modalidad=fila.closest("tr").find("td:eq(8)").text();
+			$("#modalidad option").filter(function() {
+			    return $(this).text() == modalidad;
+			  }).prop("selected", true);
+
+			var sede=fila.closest("tr").find("td:eq(9)").text();
+			$("#sede option").filter(function() {
+			    return $(this).text() == sede;
+			  }).prop("selected", true);
 
 		});
 	});

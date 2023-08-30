@@ -4,7 +4,7 @@ include "../conexion/conexion.php";
 if(isset($_POST['input'])){
 
     $input = $_POST['input'];
-    $query = "SELECT r.idconfoficio,r.tipo,r.fechrecepcion,r.alumno,r.codigo,r.estado,r.atencion,e.nombresc,m.descmod,s.descripsede,r.celular,r.correo,r.dni 
+    $query = "SELECT r.idconfoficio,r.tipo,r.fechrecepcion,r.alumno,r.codigo,r.estado,r.atencion,e.nombresc,m.descmod,s.descripsede
                FROM registro r 
                INNER JOIN escuela e ON r.idescuela = e.idescuela
                INNER JOIN sede s ON r.idsede = s.idsede
@@ -28,9 +28,6 @@ if(isset($_POST['input'])){
                     <th style="display: none;">ESCUELA</th>
 					<th style="display: none;">MODALIDAD</th>
 					<th style="display: none;">SEDE</th>
-                    <th style="display: none;">CELULAR</th>
-                    <th style="display: none;">CORREO</th>
-                    <th style="display: none;">DNI</th>
                     <th class="text-center" style="width: 10%;">ACCION</th>
                 </tr>
             </thead>
@@ -49,9 +46,6 @@ if(isset($_POST['input'])){
                     $nombre = $row['nombresc'];
                     $descmod = $row['descmod'];
                     $descripsede = $row['descripsede'];
-                    $celular = $row['celular'];
-                    $correo = $row['correo'];
-                    $dni = $row['dni'];
 
                     ?>
                         <tr>
@@ -74,11 +68,8 @@ if(isset($_POST['input'])){
                             <td style="display: none;"><?=$nombre;?></td>
                             <td style="display: none;"><?=$descmod;?></td>
                             <td style="display: none;"><?=$descripsede;?></td>
-                            <td style="display: none;"><?=$celular;?></td>
-                            <td style="display: none;"><?=$correo;?></td>
-                            <td style="display: none;"><?=$dni;?></td>
                             <td>
-                                <a href="#" class="btn btn-success editconfor" style="width: 30px; height: 25px;--bs-btn-padding-y: 0rem;"><i class="fa-solid fa-rotate-left"></i></a>
+                                <a href="#" class="btn btn-success editofic2" style="width: 30px; height: 25px;--bs-btn-padding-y: 0rem;"><i class="fa-solid fa-rotate-left"></i></a>
                             </td>
                         </tr>
                     <?php

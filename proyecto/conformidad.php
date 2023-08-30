@@ -14,7 +14,7 @@
 					<div class="col-sm-6">
 						<input type="hidden" class="form-control" name='idconfoficio' id='idconfoficio' value="0">
 						<input type="hidden" name="confor" id="confor" value="CONFORMIDAD">
-						<input type="hidden" name="estado" id="estado" value="INCOMPLETO">					
+						<input type="hidden" name="estado" id="estado" value="REGISTRADO">					
 						<div class="input-field">
 							<input type="date" name="fecreg" id="fecreg" class="form-control">
 						</div>
@@ -283,8 +283,50 @@
 			var dni=fila.closest("tr").find("td:eq(11)").text();
 			$("#dni").val(dni);
 
-			$("#btn_guardar").text("ACTUALIZAR");
+			$("#btn_guardar_actual").text("ACTUALIZAR");
 			
+
+		});
+	});
+</script>
+<!--SCRIPT JALAR DATOS A FORMULARIO DESDE TABLA BUSQUEDA CODIGO-->
+<script>
+	$(document).ready(function(){
+		
+		$("body").on("click",".editconfor",function(e){
+			e.preventDefault();
+
+			var fila=$(this);
+
+			var alumno=fila.closest("tr").find("td:eq(3)").text();
+			$("#alumno").val(alumno);
+
+			var codigo=fila.closest("tr").find("td:eq(4)").text();
+			$("#codigo").val(codigo);
+
+			var escuela=fila.closest("tr").find("td:eq(7)").text();
+			$("#escuela option").filter(function() {
+			    return $(this).text() == escuela;
+			  }).prop("selected", true);
+			
+			var modalidad=fila.closest("tr").find("td:eq(8)").text();
+			$("#modalidad option").filter(function() {
+			    return $(this).text() == modalidad;
+			  }).prop("selected", true);
+
+			var sede=fila.closest("tr").find("td:eq(9)").text();
+			$("#sede option").filter(function() {
+			    return $(this).text() == sede;
+			  }).prop("selected", true);
+			
+			var celular=fila.closest("tr").find("td:eq(10)").text();
+			$("#celular").val(celular);
+
+			var correo=fila.closest("tr").find("td:eq(11)").text();
+			$("#correo").val(correo);
+
+			var dni=fila.closest("tr").find("td:eq(12)").text();
+			$("#dni").val(dni);
 
 		});
 	});

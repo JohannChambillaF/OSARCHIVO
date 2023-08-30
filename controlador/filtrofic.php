@@ -10,7 +10,7 @@ $sql = "SELECT r.idconfoficio ,r.alumno,e.nombresc,m.descmod,s.descripsede,r.est
         INNER JOIN escuela e ON r.idescuela = e.idescuela
         INNER JOIN sede s ON r.idsede = s.idsede
         INNER JOIN modalidad m ON r.idmodalidad = m.idmodalidad
-        WHERE r.tipo = 'CONFORMIDAD' && r.estado = 'REGISTRADO' && r.fechrecepcion BETWEEN '$fechaInit' AND '$fechaFin' ORDER BY fechrecepcion ASC";
+        WHERE r.tipo = 'OFICIO' && r.estado = 'REGISTRADO' && r.fechrecepcion BETWEEN '$fechaInit' AND '$fechaFin' ORDER BY fechrecepcion ASC";
 $query = mysqli_query($conexion, $sql);
 
 ?>

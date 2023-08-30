@@ -43,7 +43,7 @@
                 <span class="d-none d-sm-inline">Registrar Oficio</span></a>
             </li>
             <li class="w-100">
-            <a href="#" class="nav-link text-white px-5" aria-current="page" style="margin-top: 5px;" >
+            <a href="#" onclick="ExpRevisar()" class="nav-link text-white px-5" aria-current="page" style="margin-top: 5px;" >
                 <i class="fa-solid fa-list-check"></i>
                 <span class="d-none d-sm-inline">Revisar Expediente</span></a>
             </li>
@@ -51,7 +51,7 @@
       </li>
       <!---------------------------------------------->  
       <li>
-        <a href="#" onclick="ExpRevisar()" class="nav-link text-white" aria-current="page" style="margin-top: 10px;" >
+        <a href="#" class="nav-link text-white" aria-current="page" style="margin-top: 10px;" >
           <i class="fa-solid fa-magnifying-glass"></i>
           <span class="ms-2 d-none d-sm-inline">Expedientes a Revisar</span>
         </a>
